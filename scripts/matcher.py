@@ -21,6 +21,9 @@ class Matcher:
         self.ppb = pd.read_excel(ppb_route)
         self.nuc = pd.read_excel(nuc_route)
 
+        #test-base
+        self.ppb = self.ppb.head(100)
+
     def reduce_base(self):
         #ppb significant columns
         ppb_sc = ['ESTADO','MUNICIPIO','NUCLEO_AGRARIO']
@@ -30,40 +33,51 @@ class Matcher:
     def match(self):
         self.mapping = []
         j = len(self.nuc)
-        n = len(self.ppb)
+        N = len(self.ppb)
         for i in range(len(self.ppb)):
             if i % 10 == 0:
-                print(f'Progress: {i/n}% ...')
-            matched_lvl1 = False
-            counter = 0
-            #lets first enter the level 1 region
-            while not matched_lvl1 and counter < j:
-                a = self.ppb.loc[i]['MUNICIPIO']
-                b = self.nuc.loc[counter]['MUNICIPIO']
-                matched_lvl1 = self.tester.test(a,b)
-                counter = counter + 1
+                print(f'Progress: {i/N}% ...')
+
+            #eliminate null and verbotten values
+            verbotten = False
+            for n in self.inputs['nulos']:
+                if self.ppb.loc[i]['MUNICIPIO'].startswith(n) or self.ppb.loc[i]['MUNICIPIO']==n:
+                    self.mapping.append['0']
+                    verbotten = True
+                    break
             
-            #decide what to do depending if we found lvl 1 match
-            #no match
-            if not matched_lvl1:
-                self.mapping.append(self.inputs['error_1_message'])
-            #match
-            else:
-                matched_lvl2 = False
+            #if the value is allowed, we search for the match:
+            if not verbotten:
+                matched_lvl1 = False
                 counter = 0
-                #lvl2 region
-                while not matched_lvl2 and counter < j:
-                    a = self.ppb.loc[i]['NUCLEO_AGRARIO']
-                    b = self.nuc.loc[counter]['NOM_NUC']
-                    matched_lvl2 = self.tester.test(a,b)
+                #lets first enter the level 1 region
+                while not matched_lvl1 and counter < j:
+                    a = self.ppb.loc[i]['MUNICIPIO']
+                    b = self.nuc.loc[counter]['MUNICIPIO']
+                    matched_lvl1 = self.tester.test(a,b)
                     counter = counter + 1
+                
+                #decide what to do depending if we found lvl 1 match
                 #no match
-                if not matched_lvl2:
-                    self.mapping.append(self.inputs['error_2_message'])
+                if not matched_lvl1:
+                    self.mapping.append(self.inputs['error_1_message'])
                 #match
                 else:
-                    cve = self.nuc.loc[counter-1]['CLAVE']
-                    self.mapping.append(cve)
+                    matched_lvl2 = False
+                    counter = 0
+                    #lvl2 region
+                    while not matched_lvl2 and counter < j:
+                        a = self.ppb.loc[i]['NUCLEO_AGRARIO']
+                        b = self.nuc.loc[counter]['NOM_NUC']
+                        matched_lvl2 = self.tester.test(a,b)
+                        counter = counter + 1
+                    #no match
+                    if not matched_lvl2:
+                        self.mapping.append(self.inputs['error_2_message'])
+                    #match
+                    else:
+                        cve = self.nuc.loc[counter-1]['CLAVE']
+                        self.mapping.append(cve)
 
     def report(self):
         self.ppb['Merged'] = self.mapping
@@ -71,4 +85,4 @@ class Matcher:
 
     def save(self):
         saving_route = self.inputs['processed_route'] + self.inputs['matched_filename']
-        self.ppb.to_csv(saving_route)
+        self.ppb.to_csv(saving_route,index=False)

@@ -17,7 +17,13 @@ inputs = {
     'processed_route': './data/processed/',
 
     'error_1_message': 'Error1',
-    'error_2_message': 'Error2'
+    'error_2_message': 'Error2',
+
+    'nulos': ['0','NO DEFINIDO','NO ESPECIFICADO','PEQUEÑA PROPIEDAD','PEQUENA PROPIEDAD'],
+    'cabeceras': ['CAB, MPAL,','CAB, MUNICIPAL','CABECERA MUNICIPAL'],
+    'remover': ['N,C,P,E,','N,C,P,','B,C,','P,P,','RANCH,','POB,','C,A,G,','COOP,','COL',
+                'AMP,','AMPL,','COPROP,','COOPRO,','RIA,','PP','RIA','RIB,','SPR']
+
     ###############
 }
 # --------------
