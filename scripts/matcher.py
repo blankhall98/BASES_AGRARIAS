@@ -64,11 +64,11 @@ class Matcher:
                 #match
                 else:
                     reduced_nuc = self.nuc[self.nuc['MUNICIPIO'] == b].reset_index(drop=True)
-                    j = len(reduced_nuc)
+                    jj = len(reduced_nuc)
                     matched_lvl2 = False
                     counter = 0
                     #lvl2 region
-                    while not matched_lvl2 and counter < j:
+                    while not matched_lvl2 and counter < jj:
                         a = self.ppb.loc[i]['NUCLEO_AGRARIO']
                         b = reduced_nuc.loc[counter]['NOM_NUC']
                         matched_lvl2 = self.tester.test(a,b)
