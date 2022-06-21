@@ -22,7 +22,7 @@ class Matcher:
         self.nuc = pd.read_excel(nuc_route)
 
         #test-base
-        self.ppb = self.ppb.head(100000)
+        self.ppb = self.ppb.head(100)
 
     def reduce_base(self):
         #ppb significant columns
@@ -63,12 +63,14 @@ class Matcher:
                     self.mapping.append(self.inputs['error_1_message'])
                 #match
                 else:
+                    reduced_nuc = self.nuc[self.nuc['MUNICIPIO'] == b].reset_index(drop=True)
+                    j = len(reduced_nuc)
                     matched_lvl2 = False
                     counter = 0
                     #lvl2 region
                     while not matched_lvl2 and counter < j:
                         a = self.ppb.loc[i]['NUCLEO_AGRARIO']
-                        b = self.nuc.loc[counter]['NOM_NUC']
+                        b = reduced_nuc.loc[counter]['NOM_NUC']
                         matched_lvl2 = self.tester.test(a,b)
                         counter = counter + 1
                     #no match
@@ -76,7 +78,7 @@ class Matcher:
                         self.mapping.append(self.inputs['error_2_message'])
                     #match
                     else:
-                        cve = self.nuc.loc[counter-1]['CLAVE']
+                        cve = reduced_nuc.loc[counter-1]['CLAVE']
                         self.mapping.append(cve)
 
     def report(self):
