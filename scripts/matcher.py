@@ -22,7 +22,7 @@ class Matcher:
         self.nuc = pd.read_excel(nuc_route)
 
         #test-base
-        self.ppb = self.ppb.head(100)
+        self.ppb = self.ppb.head(100000)
 
     def reduce_base(self):
         #ppb significant columns
