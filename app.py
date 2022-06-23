@@ -28,7 +28,7 @@ inputs = {
     'nulos': ['0','NO DEFINIDO','NO ESPECIFICADO','PEQUEÑA PROPIEDAD','PEQUENA PROPIEDAD'],
     'cabeceras': ['CAB, MPAL,','CAB, MUNICIPAL','CABECERA MUNICIPAL'],
     'remover': ['N,C,P,E,','N,C,P,','B,C,','P,P,','RANCH,','POB,','C,A,G,','COOP,','COL',
-                'AMP,','AMPL,','COPROP,','COOPRO,','RIA,','PP','RIA','RIB,','SPR']
+                'AMP,','AMPL,','COPROP,','COOPRO,','RIA,','PP','RIA','RIB,','SPR','COL,']
 
     ###############
 }

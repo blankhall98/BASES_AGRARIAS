@@ -52,14 +52,14 @@ class Tester:
     #test remove
     def test_remove(self,to_match,possible_match):
         most_remove = False
+        possible_match_r = possible_match
+        to_match_r = to_match
         for r in self.inputs['remover']:
             if r in to_match or r in possible_match:
                 most_remove = True
-                to_match_r = to_match.replace(r,"", 1)
-                possible_match_r = possible_match.replace(r,"",1)
-                break
-            else:
-                pass
+                to_match_r = to_match_r.replace(r,"", 1)
+                possible_match_r = possible_match_r.replace(r,"",1)
+
         if most_remove:
             return self.simple_test(to_match_r,possible_match_r)
         else:
