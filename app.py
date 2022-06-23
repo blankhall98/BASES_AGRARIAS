@@ -11,6 +11,12 @@ inputs = {
     'matched_filename': 'match_chiapas.csv',
     ###########
 
+    #ONLY EDIT THIS IF SIMULATION#
+    'simulation': True,
+    'n_sim': 100,
+
+    ##############################
+
     #DONT EDIT THIS#
     'ppb_route': './data/raw/PPB/',
     'nuc_route': './data/raw/NUC/',
@@ -31,7 +37,7 @@ inputs = {
 #application
 def main():
 
-    t = Tester()
+    t = Tester(inputs)
     m = Matcher(inputs,t)
 
     m.match()

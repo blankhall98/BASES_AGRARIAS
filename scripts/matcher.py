@@ -5,6 +5,7 @@ import pandas as pd
 class Matcher:
 
     def __init__(self,inputs,tester):
+        print('matcher working')
         
         self.inputs = inputs
         self.tester = tester
@@ -21,8 +22,9 @@ class Matcher:
         self.ppb = pd.read_excel(ppb_route)
         self.nuc = pd.read_excel(nuc_route)
 
-        #test-base
-        self.ppb = self.ppb.head(100)
+        #### simulation####
+        if self.inputs['simulation']:
+            self.ppb = self.ppb.head(self.inputs['n_sim'])
 
     def reduce_base(self):
         #ppb significant columns
